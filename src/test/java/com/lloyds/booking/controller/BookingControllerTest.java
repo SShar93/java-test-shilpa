@@ -2,6 +2,8 @@ package com.lloyds.booking.controller;
 
 
 
+import com.lloyds.booking.TestHelper;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc
@@ -21,37 +24,24 @@ public class BookingControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    private static final String input = "0900 1730 \n" +
-            "2020-01-18 10:17:06 EMP001 \n" +
-            "2020-01-21 09:00 2 \n" +
-            "2020-01-18 12:34:56 EMP002 \n" +
-            "2020-01-21 09:00 2 \n" +
-            "2020-01-18 09:28:23 EMP003 \n" +
-            "2020-01-22 14:00 2 \n" +
-            "2020-01-18 11:23:45 EMP004 \n" +
-            "2020-01-22 16:00 1 \n" +
-            "2020-01-15 17:29:12 EMP005 \n" +
-            "2020-01-21 16:00 3 \n" +
-            "2020-01-18 11:00:45 EMP006 \n" +
-            "2020-01-23 16:00 1 \n" +
-            "2020-01-15 11:00:45 EMP007 \n" +
-            "2020-01-23 15:00 2 \n";
-
     @Test
+    @DisplayName("BookingControllerTest : Test to get all the booking records for meetings in a boardroom")
     void testGetBookingRecords() throws Exception {
-        mockMvc.perform(get("/meeting/booking-records")
-                .content(input)).andExpect(status().isOk());
+        mockMvc.perform(get(TestHelper.URL_PATH_FOR_BOOKING_RECORDS)
+                .content(TestHelper.INPUT)).andExpect(status().isOk()).andExpect(content().string(TestHelper.JSON_OUTPUT));
     }
 
 
     @Test
+    @DisplayName("BookingControllerTest :  Test to get Exception message when we send Null input")
     void testGetBookingRecordsWhenInputNull() throws Exception {
-        mockMvc.perform(get("/meeting/booking-records")).andExpect(status().is4xxClientError());
+        mockMvc.perform(get(TestHelper.URL_PATH_FOR_BOOKING_RECORDS)).andExpect(status().is4xxClientError());
     }
 
     @Test
+    @DisplayName("BookingControllerTest :  Test to get Exception message when we send Blank input")
     void testGetBookingRecordsWhenInputBlank() throws Exception {
-        mockMvc.perform(get("/meeting/booking-records")
+        mockMvc.perform(get(TestHelper.URL_PATH_FOR_BOOKING_RECORDS)
                 .content("")).andExpect(status().is4xxClientError());
     }
 }

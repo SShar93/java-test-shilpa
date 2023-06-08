@@ -52,8 +52,8 @@ Implement a system for processing batches of booking requests.
 "data": "2020-01-23",
 "bookings": [
 {
-"emp_id": "EMP006",
-"start_time": "16:00",
+"emp_id": "EMP007",
+"start_time": "15:00",
 "end_time": "17:00"
 }
 ]
